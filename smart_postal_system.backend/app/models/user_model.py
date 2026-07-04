@@ -17,7 +17,11 @@ class User(Base):
 
     hashed_password = Column(String(255), nullable=False)
 
-    role = Column(String(30), nullable=False)
+    role = Column(
+        String(20),
+        default="CUSTOMER",
+        nullable=False
+    )
 
     address = Column(Text)
 
