@@ -26,15 +26,15 @@ def get_current_user(
             algorithms=[settings.ALGORITHM]
         )
 
-        user_id = payload.get("user_id")
+        email = payload.get("sub")
 
-        if user_id is None:
+        if email is None:
             raise credentials_exception
 
     except JWTError:
         raise credentials_exception
 
-    user = db.query(User).filter(User.id == user_id).first()
+    user = db.query(User).filter(User.email == email).first()
 
     if user is None:
         raise credentials_exception

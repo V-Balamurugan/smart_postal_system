@@ -81,22 +81,15 @@ def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ):
+    print("Received Token:", token)
+
     payload = verify_access_token(token)
+    print("Payload:", payload)
 
     email = payload.get("sub")
-
-    if email is None:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid token",
-        )
+    print("Email from token:", email)
 
     user = db.query(User).filter(User.email == email).first()
-
-    if user is None:
-        raise HTTPException(
-            status_code=404,
-            detail="User not found",
-        )
+    print("User:", user)
 
     return user
