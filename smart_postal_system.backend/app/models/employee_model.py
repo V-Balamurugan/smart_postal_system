@@ -125,3 +125,7 @@ class Employee(Base):
         back_populates="employee",
         cascade="all, delete-orphan"
     )
+    vehicles = relationship(
+        "Vehicle",
+        back_populates="driver",
+    )
