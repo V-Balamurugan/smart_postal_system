@@ -12,6 +12,7 @@ from app.routers import auth_router
 from app.routers import user_route
 from app.routers import parcels_route
 from app.routers import employee_router
+from app.routers import delivery_assignment_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -25,6 +26,7 @@ app.include_router(auth_router.router)
 app.include_router(user_route.router)
 app.include_router(parcels_route.router)
 app.include_router(employee_router.router)
+app.include_router(delivery_assignment_router.router)
 
 
 @app.get("/")

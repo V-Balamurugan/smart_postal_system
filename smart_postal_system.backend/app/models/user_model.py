@@ -69,3 +69,7 @@ class User(Base):
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
+    delivery_assignments = relationship(
+        "DeliveryAssignment",
+        foreign_keys="DeliveryAssignment.assigned_by"
+    )

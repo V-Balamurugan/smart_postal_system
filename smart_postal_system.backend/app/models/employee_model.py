@@ -119,3 +119,9 @@ class Employee(Base):
         uselist=False,
         passive_deletes=True,
     )
+
+    delivery_assignments = relationship(
+        "DeliveryAssignment",
+        back_populates="employee",
+        cascade="all, delete-orphan"
+    )
