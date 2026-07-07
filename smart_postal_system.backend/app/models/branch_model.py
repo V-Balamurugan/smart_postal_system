@@ -108,3 +108,7 @@ class Branch(Base):
         "Vehicle",
         back_populates="branch",
     )
+    tracking_history = relationship(
+        "TrackingHistory",
+        back_populates="branch",
+    )

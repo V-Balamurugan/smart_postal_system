@@ -124,3 +124,8 @@ class Parcel(Base):
         uselist=False,
         cascade="all, delete-orphan"
     )
+    tracking_history = relationship(
+        "TrackingHistory",
+        back_populates="parcel",
+        cascade="all, delete-orphan",
+    )
