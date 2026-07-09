@@ -7,13 +7,11 @@ from app.models.user_model import User
 from app.models.parcel_model import Parcel
 from app.models.employee_model import Employee
 from app.models.tracking_model import TrackingHistory
-<<<<<<< HEAD
+
 from app.models.branch_model import Branch
 from app.models.vehicle_model import Vehicle
 from app.models.route_model import Route
 from app.models.delivery_assignment_model import DeliveryAssignment
-=======
->>>>>>> fbe67239cd358e5338da41924b95b8f47875abbc
 
 # Import routers
 from app.routers import auth_router
@@ -24,6 +22,7 @@ from app.routers import delivery_assignment_router
 from app.routers import branches_route
 from app.routers import vehicle_router
 from app.routers import tracking_route
+from app.routers import route_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -41,6 +40,7 @@ app.include_router(delivery_assignment_router.router)
 app.include_router(branches_route.router)
 app.include_router(vehicle_router.router)
 app.include_router(tracking_route.router)
+app.include_router(route_router.router)
 
 @app.get("/")
 def root():
