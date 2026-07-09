@@ -111,6 +111,7 @@ class Branch(Base):
     tracking_history = relationship(
         "TrackingHistory",
         back_populates="branch",
+<<<<<<< HEAD
     )
     routes_starting = relationship(
         "Route",
@@ -121,4 +122,6 @@ class Branch(Base):
         "Route",
         foreign_keys="[Route.end_branch_id]",
         back_populates="end_branch",
+=======
+>>>>>>> fbe67239cd358e5338da41924b95b8f47875abbc
     )

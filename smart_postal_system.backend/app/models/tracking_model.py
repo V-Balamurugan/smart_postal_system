@@ -45,7 +45,11 @@ class TrackingHistory(Base):
 
     branch_id: Mapped[int] = mapped_column(
         ForeignKey(
+<<<<<<< HEAD
             "branches.branch_id",
+=======
+            "branches.id",
+>>>>>>> fbe67239cd358e5338da41924b95b8f47875abbc
             ondelete="RESTRICT",
         ),
         nullable=False,

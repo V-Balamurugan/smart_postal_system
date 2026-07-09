@@ -33,12 +33,20 @@ class Route(Base):
     )
 
     start_branch_id: Mapped[int] = mapped_column(
+<<<<<<< HEAD
         ForeignKey("branches.branch_id", ondelete="CASCADE"),
+=======
+        ForeignKey("branches.id", ondelete="CASCADE"),
+>>>>>>> fbe67239cd358e5338da41924b95b8f47875abbc
         nullable=False,
     )
 
     end_branch_id: Mapped[int] = mapped_column(
+<<<<<<< HEAD
         ForeignKey("branches.branch_id", ondelete="CASCADE"),
+=======
+        ForeignKey("branches.id", ondelete="CASCADE"),
+>>>>>>> fbe67239cd358e5338da41924b95b8f47875abbc
         nullable=False,
     )
 
