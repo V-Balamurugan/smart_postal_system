@@ -23,6 +23,7 @@ from app.routers import branches_route
 from app.routers import vehicle_router
 from app.routers import tracking_route
 from app.routers import route_router
+from app.routers import route_optimization_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -41,6 +42,7 @@ app.include_router(branches_route.router)
 app.include_router(vehicle_router.router)
 app.include_router(tracking_route.router)
 app.include_router(route_router.router)
+app.include_router(route_optimization_router.router)
 
 @app.get("/")
 def root():

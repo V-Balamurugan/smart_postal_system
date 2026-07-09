@@ -71,5 +71,6 @@ class User(Base):
     )
     delivery_assignments = relationship(
         "DeliveryAssignment",
-        foreign_keys="DeliveryAssignment.assigned_by"
+        foreign_keys="DeliveryAssignment.assigned_by",
+        back_populates="assigned_user"
     )
