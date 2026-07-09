@@ -53,7 +53,7 @@ class BranchService:
 
         return (
             db.query(Branch)
-            .order_by(Branch.id)
+            .order_by(Branch.branch_id)
             .all()
         )
 
@@ -65,7 +65,7 @@ class BranchService:
 
         branch = (
             db.query(Branch)
-            .filter(Branch.id == branch_id)
+            .filter(Branch.branch_id == branch_id)
             .first()
         )
 
@@ -96,7 +96,7 @@ class BranchService:
                 db.query(Branch)
                 .filter(
                     Branch.branch_code == update_data["branch_code"],
-                    Branch.id != branch_id,
+                    Branch.branch_id != branch_id,
                 )
                 .first()
             )
@@ -112,7 +112,7 @@ class BranchService:
                 db.query(Branch)
                 .filter(
                     Branch.email == update_data["email"],
-                    Branch.id != branch_id,
+                    Branch.branch_id != branch_id,
                 )
                 .first()
             )

@@ -129,3 +129,7 @@ class Employee(Base):
         "Vehicle",
         back_populates="driver",
     )
+    tracking_history = relationship(
+        "TrackingHistory",
+        back_populates="employee",
+    )

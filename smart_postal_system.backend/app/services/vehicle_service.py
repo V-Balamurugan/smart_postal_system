@@ -41,7 +41,7 @@ class VehicleService:
         branch = (
             db.query(Branch)
             .filter(
-                Branch.id == vehicle.current_branch_id
+                Branch.branch_id == vehicle.current_branch_id
             )
             .first()
         )
@@ -130,7 +130,7 @@ class VehicleService:
             branch = (
                 db.query(Branch)
                 .filter(
-                    Branch.id == update_data["current_branch_id"]
+                    Branch.branch_id == update_data["current_branch_id"]
                 )
                 .first()
             )

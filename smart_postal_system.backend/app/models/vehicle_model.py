@@ -66,7 +66,7 @@ class Vehicle(Base):
     )
 
     current_branch_id: Mapped[int] = mapped_column(
-        ForeignKey("branches.id"),
+        ForeignKey("branches.branch_id"),
         nullable=False,
     )
 

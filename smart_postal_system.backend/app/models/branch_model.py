@@ -25,7 +25,7 @@ class Branch(Base):
 
     __tablename__ = "branches"
 
-    id: Mapped[int] = mapped_column(
+    branch_id: Mapped[int] = mapped_column(
         Integer,
         primary_key=True,
         index=True,
@@ -107,4 +107,18 @@ class Branch(Base):
     vehicles = relationship(
         "Vehicle",
         back_populates="branch",
+    )
+    tracking_history = relationship(
+        "TrackingHistory",
+        back_populates="branch",
+    )
+    routes_starting = relationship(
+        "Route",
+        foreign_keys="[Route.start_branch_id]",
+        back_populates="start_branch",
+    )
+    routes_ending = relationship(
+        "Route",
+        foreign_keys="[Route.end_branch_id]",
+        back_populates="end_branch",
     )
