@@ -1,0 +1,3 @@
+# Ignore trained ML models and serialized objects
+*.joblib
+*.pkl

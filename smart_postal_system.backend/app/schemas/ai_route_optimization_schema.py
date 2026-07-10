@@ -44,6 +44,14 @@ class AIRouteOptimizationRequest(BaseModel):
         )
     )
 
+    use_hybrid: bool = Field(
+        default=True,
+        description=(
+            "If True (default), combine rule-based decisions with ML predictions "
+            "(delay risk penalties, predicted costs, and dynamic weighting based on demand)."
+        )
+    )
+
     weights: OptimizationWeights = Field(
         default_factory=OptimizationWeights
     )

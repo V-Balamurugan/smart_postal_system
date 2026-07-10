@@ -13,6 +13,9 @@ from app.models.vehicle_model import Vehicle
 from app.models.route_model import Route
 from app.models.delivery_assignment_model import DeliveryAssignment
 from app.models.ai_route_optimization_model import AIRouteOptimization
+from app.models.delay_prediction_model import DelayPrediction
+from app.models.cost_prediction_model import CostPrediction
+from app.models.demand_forecast_model import DemandForecast
 
 # Import routers
 from app.routers import auth_router
@@ -26,6 +29,7 @@ from app.routers import tracking_route
 from app.routers import route_router
 from app.routers import route_optimization_router
 from app.routers import ai_route_optimizer_router
+from app.routers import ai_route
 
 Base.metadata.create_all(bind=engine)
 
@@ -46,6 +50,7 @@ app.include_router(tracking_route.router)
 app.include_router(route_router.router)
 app.include_router(route_optimization_router.router)
 app.include_router(ai_route_optimizer_router.router)
+app.include_router(ai_route.router)
 
 @app.get("/")
 def root():

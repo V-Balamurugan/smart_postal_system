@@ -102,6 +102,7 @@ class AIRouteOptimizationService:
             parcels=parcels,
             weights=request.weights.model_dump(),
             use_ortools=request.use_ortools,
+            use_hybrid=request.use_hybrid,
         )
 
         # ----------------------------------------------------
