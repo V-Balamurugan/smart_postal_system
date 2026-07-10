@@ -185,6 +185,52 @@ Connected the relationships bidirectionally by adding the `back_populates` param
   )
   ```
 
+---
+
+## 10. SQLAlchemy InvalidRequestError ('AIRouteOptimization' not located)
+
+### Error Message
+```
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[Employee(employees)], expression 'AIRouteOptimization' failed to locate a name ('AIRouteOptimization'). If this is a class name, consider adding this relationship() to the <class 'app.models.employee_model.Employee'> class after both dependent classes have been defined.
+```
+
+### Root Cause
+The `Employee` and `Route` models define relationship mappings to `AIRouteOptimization`. In files like `verify_routes.py`, `verify_optimization.py`, and `main.py`, the `AIRouteOptimization` model was not imported or loaded before database metadata creation (`Base.metadata.create_all`) or queries were executed, leading to registry lookup failure in SQLAlchemy.
+
+### Solution / Solving Method
+Added the import of `AIRouteOptimization` in `verify_routes.py`, `verify_optimization.py`, and `main.py` alongside other models:
+```python
+from app.models.ai_route_optimization_model import AIRouteOptimization
+```
+
+---
+
+## 11. AttributeError / Mismatched AI Schema Names in AI Route Optimizer
+
+### Error Message
+```
+AttributeError: type object 'Parcel' has no attribute 'route_id'
+```
+
+### Root Cause
+1. **No direct route ID on parcels**: The `Parcel` database model does not have a `route_id` attribute. In `ai_route_optimization_service.py`, the system was trying to query parcels using `Parcel.route_id == route_id`.
+2. **Vehicle availability column mismatch**: `Vehicle` model was queried with `Vehicle.is_available.is_(True)` but it lacks this column, instead utilizing the `status` column (e.g. `status == VehicleStatus.AVAILABLE`).
+3. **Pydantic Validation Error**: `AIRouteOptimizationResponse` expected `optimized_sequence` to be a `Dict[str, Any]`, but the AI optimizer produces a sequence list: `List[Dict[str, Any]]`.
+4. **Scoring and Constraint mismatches**: The AI scoring and constraints engine (`app/ai/constrains.py`, `app/ai/scoring.py`, `app/ai/optimizer.py`) expected fields that do not exist directly on the SQLAlchemy models:
+   - `route.distance` and `route.estimated_duration` (instead of `route.distance_km` and `route.estimated_duration_minutes`)
+   - `vehicle.capacity` and `vehicle.is_available` (instead of `vehicle.capacity_kg` and `vehicle.status`)
+   - `vehicle.branch_id` and `employee.branch_id` (instead of `vehicle.current_branch_id` and checking employee branch name/code against start branch names/codes)
+   - `parcel.priority` and `parcel.delivery_deadline` (instead of `parcel.priority_level` and `parcel.expected_delivery`)
+
+### Solution / Solving Method
+1. **Dynamic Parcel Routing query**: Updated `ai_route_optimization_service.py` to query parcels where the parcel's `source_branch` matches the route start branch's code or name, and the parcel's `destination_branch` matches the route end branch's code or name.
+2. **Vehicle status filter**: Changed vehicle availability query to `Vehicle.status == "AVAILABLE"`.
+3. **Pydantic Response updated**: Changed `optimized_sequence` in the pydantic response schema to `List[Dict[str, Any]]`.
+4. **Robust property aliases/fallbacks**: Updated `app/ai/constrains.py`, `app/ai/scoring.py`, and `app/ai/optimizer.py` to check for both the SQL model attribute names and fallback attribute names (e.g., using `getattr(vehicle, "capacity_kg", getattr(vehicle, "capacity", 0))`), making them fully compatible with active DB models.
+5. **Integrated verification test**: Added an automated end-to-end integration test case inside `verify_optimization.py` to seed a test driver, vehicle, and parcel, and verify AI Route Optimization successfully outputs the optimized driver and sequence.
+
+
+
 
 
 

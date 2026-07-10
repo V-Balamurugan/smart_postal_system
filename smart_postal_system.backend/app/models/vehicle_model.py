@@ -127,3 +127,7 @@ class Vehicle(Base):
         "Employee",
         back_populates="vehicles",
     )
+    ai_route_optimizations = relationship(
+        "AIRouteOptimization",
+        back_populates="vehicle"
+    )

@@ -29,11 +29,15 @@ from app.models.branch_model import Branch
 from app.models.vehicle_model import Vehicle
 from app.models.route_model import Route
 from app.models.delivery_assignment_model import DeliveryAssignment
+from app.models.ai_route_optimization_model import AIRouteOptimization
 
 from app.database.database import Base, engine, SessionLocal
 from app.schemas.route_optimization_schema import RouteOptimizationRequest
 from app.services.route_optimization_service import RouteOptimizationService
 from utils.ors_client import ors_client
+from datetime import date
+from app.services.ai_route_optimization_service import AIRouteOptimizationService
+from app.schemas.ai_route_optimization_schema import AIRouteOptimizationRequest
 
 # Monkeypatch the get_driving_route method of the ors_client to mock external API response
 async def mock_get_driving_route(start_longitude, start_latitude, end_longitude, end_latitude):
@@ -135,6 +139,79 @@ async def test_route_optimization():
         assert route.distance_km == 451.23
         assert route.estimated_duration_minutes == 472
         print("[PASS] Database assertions passed!")
+
+        # 6. Test AI Route Optimization
+        print("\nSeeding data for AI Route Optimization...")
+        user_drv = User(
+            full_name="Test Driver",
+            email="driver@example.com",
+            hashed_password="mocked_password_hash",
+            role="EMPLOYEE"
+        )
+        db.add(user_drv)
+        db.commit()
+        db.refresh(user_drv)
+
+        driver = Employee(
+            user_id=user_drv.user_id,
+            employee_code="EMP-DRV-01",
+            designation="Driver",
+            branch="MDU-01",
+            is_available=True,
+            current_workload=0,
+            max_workload=10
+        )
+        db.add(driver)
+        db.commit()
+        db.refresh(driver)
+
+        vehicle = Vehicle(
+            vehicle_number="TN-59-AZ-1234",
+            vehicle_type="Truck",
+            brand="Tata",
+            model="Ace",
+            capacity_kg=500.0,
+            current_branch_id=branch_a.branch_id,
+            driver_id=driver.employee_id,
+            fuel_type="Diesel",
+            status="AVAILABLE",
+            insurance_expiry=date(2027, 1, 1),
+            registration_expiry=date(2027, 1, 1)
+        )
+        db.add(vehicle)
+        db.commit()
+        db.refresh(vehicle)
+
+        parcel = Parcel(
+            tracking_number="TRK100001",
+            sender_id=user_drv.user_id,
+            receiver_name="Test Receiver",
+            receiver_phone="9876543210",
+            pickup_address="Address Madurai",
+            delivery_address="Address Chennai",
+            source_branch="MDU-01",
+            destination_branch="CHN-01",
+            weight=10.0,
+            parcel_value=100.0,
+            priority_level="HIGH",
+            status="PENDING"
+        )
+        db.add(parcel)
+        db.commit()
+        db.refresh(parcel)
+
+        print("Running AI Route Optimization...")
+        ai_request = AIRouteOptimizationRequest()
+        ai_response = AIRouteOptimizationService.optimize_route(db, route.route_id, ai_request)
+        
+        print(f"AI Route Optimization Response: {ai_response}")
+        assert ai_response.route_id == route.route_id
+        assert ai_response.selected_vehicle_id == vehicle.vehicle_id
+        assert ai_response.selected_employee_id == driver.employee_id
+        assert ai_response.total_parcels == 1
+        assert ai_response.optimized_sequence[0]["parcel_id"] == parcel.parcel_id
+        assert ai_response.optimized_sequence[0]["priority"] == "HIGH"
+        print("[PASS] AI Route Optimization assertions passed!")
 
     finally:
         print("\nCleaning up database connection and file...")

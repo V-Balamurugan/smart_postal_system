@@ -27,6 +27,7 @@ from app.models.branch_model import Branch
 from app.models.vehicle_model import Vehicle
 from app.models.route_model import Route
 from app.models.delivery_assignment_model import DeliveryAssignment
+from app.models.ai_route_optimization_model import AIRouteOptimization
 
 from app.database.database import Base, engine, SessionLocal
 from app.schemas.route_schema import RouteCreate, RouteUpdate

@@ -133,3 +133,7 @@ class Employee(Base):
         "TrackingHistory",
         back_populates="employee",
     )
+    ai_route_optimizations = relationship(
+        "AIRouteOptimization",
+        back_populates="employee"
+    )

@@ -12,6 +12,7 @@ from app.models.branch_model import Branch
 from app.models.vehicle_model import Vehicle
 from app.models.route_model import Route
 from app.models.delivery_assignment_model import DeliveryAssignment
+from app.models.ai_route_optimization_model import AIRouteOptimization
 
 # Import routers
 from app.routers import auth_router
@@ -24,6 +25,7 @@ from app.routers import vehicle_router
 from app.routers import tracking_route
 from app.routers import route_router
 from app.routers import route_optimization_router
+from app.routers import ai_route_optimizer_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -43,6 +45,7 @@ app.include_router(vehicle_router.router)
 app.include_router(tracking_route.router)
 app.include_router(route_router.router)
 app.include_router(route_optimization_router.router)
+app.include_router(ai_route_optimizer_router.router)
 
 @app.get("/")
 def root():

@@ -84,3 +84,8 @@ class Route(Base):
         foreign_keys=[end_branch_id],
         back_populates="routes_ending",
     )
+    ai_route_optimizations = relationship(
+        "AIRouteOptimization",
+        back_populates="route",
+        cascade="all, delete-orphan"
+    )
