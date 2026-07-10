@@ -71,6 +71,17 @@ class AIRouteOptimization(Base):
         nullable=False
     )
 
+    solver_status = Column(
+        String(50),
+        nullable=True,
+        default="RULE_BASED"
+    )
+
+    score_breakdown = Column(
+        JSON,
+        nullable=True
+    )
+
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now()

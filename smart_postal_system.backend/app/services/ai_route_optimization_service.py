@@ -100,7 +100,8 @@ class AIRouteOptimizationService:
             vehicles=vehicles,
             employees=employees,
             parcels=parcels,
-            weights=request.weights.model_dump()
+            weights=request.weights.model_dump(),
+            use_ortools=request.use_ortools,
         )
 
         # ----------------------------------------------------
@@ -122,6 +123,8 @@ class AIRouteOptimizationService:
             optimized_sequence=result[
                 "optimized_sequence"
             ],
+            solver_status=result.get("solver_status"),
+            score_breakdown=result.get("score_breakdown"),
         )
 
         db.add(optimization)

@@ -35,6 +35,15 @@ class AIRouteOptimizationRequest(BaseModel):
         max_length=100
     )
 
+    use_ortools: bool = Field(
+        default=True,
+        description=(
+            "If True (default), attempt the OR-Tools CP-SAT solver first "
+            "and fall back to Rule-Based if unavailable or infeasible. "
+            "Set to False to always use the Rule-Based engine."
+        )
+    )
+
     weights: OptimizationWeights = Field(
         default_factory=OptimizationWeights
     )
@@ -66,6 +75,10 @@ class AIRouteOptimizationResponse(BaseModel):
     optimization_algorithm: str
 
     optimized_sequence: List[Dict[str, Any]]
+
+    solver_status: Optional[str] = None
+
+    score_breakdown: Optional[Dict[str, Any]] = None
 
     created_at: datetime
 
