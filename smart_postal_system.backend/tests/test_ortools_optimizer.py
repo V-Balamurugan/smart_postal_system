@@ -397,6 +397,7 @@ class TestORToolsOptimizerEndToEnd:
             employees=employees,
             parcels=parcels,
             weights=weights or DEFAULT_WEIGHTS,
+            use_hybrid=False,
         )
 
     # --- Happy path ----------------------------------------------------------
@@ -614,6 +615,7 @@ class TestRouteOptimizerDispatch:
             parcels=[_make_parcel()],
             weights=DEFAULT_WEIGHTS,
             use_ortools=True,
+            use_hybrid=False,
         )
         assert result["optimization_algorithm"] == "OR-Tools CP-SAT"
 
@@ -653,5 +655,6 @@ class TestRouteOptimizerDispatch:
             parcels=[_make_parcel()],
             weights=DEFAULT_WEIGHTS,
             use_ortools=False,
+            use_hybrid=False,
         )
         assert result["optimization_algorithm"] == "Rule-Based"
