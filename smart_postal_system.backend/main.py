@@ -30,6 +30,7 @@ from app.routers import route_router
 from app.routers import route_optimization_router
 from app.routers import ai_route_optimizer_router
 from app.routers import ai_route
+from app.routers import dashboard_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -51,6 +52,7 @@ app.include_router(route_router.router)
 app.include_router(route_optimization_router.router)
 app.include_router(ai_route_optimizer_router.router)
 app.include_router(ai_route.router)
+app.include_router(dashboard_router.router)
 
 @app.get("/")
 def root():
