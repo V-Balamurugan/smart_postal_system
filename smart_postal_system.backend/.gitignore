@@ -1,4 +1,78 @@
-/__pycache__
+# ========================
+# Python
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyc
+
+# ========================
+# Virtual Environments
+# ========================
+.venv/
+venv/
+env/
+ENV/
+.env/
+*.egg-info/
+dist/
+build/
+
+# ========================
+# Environment Variables
+# ========================
 .env
-tests
-test_ortools_optimizer.py
+.env.*
+!.env_example
+
+# ========================
+# Database
+# ========================
+*.db
+*.sqlite
+*.sqlite3
+
+# ========================
+# IDE / Editor
+# ========================
+.vscode/
+.idea/
+*.suo
+*.user
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ========================
+# Logs & Debug
+# ========================
+*.log
+logs/
+error_solving_log.md
+
+# ========================
+# Testing
+# ========================
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+test_*.py
+*_test.py
+
+# ========================
+# Utility / Verification Scripts
+# ========================
+verify_optimization.py
+verify_routes.py
+
+# ========================
+# Build / Distribution
+# ========================
+*.egg
+*.whl
+MANIFEST
